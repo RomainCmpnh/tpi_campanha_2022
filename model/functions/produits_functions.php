@@ -72,7 +72,8 @@
        // Récupère toutes les t-shirts dans l'ordre alphabétique des marques
        function getAllTshirtsOrderMarque(){
 
-        $sql = "SELECT * FROM tshirts AS c JOIN models as m ON m.id_model = c.id_model JOIN brands AS b ON b.id_brand = m.id_brand ORDER BY b.name";
+        $sql = "SELECT * FROM tshirts AS c JOIN models as m ON m.id_model = c.id_model 
+        JOIN brands AS b ON b.id_brand = m.id_brand ORDER BY b.name";
     
         $query = connect()->prepare($sql);
     
@@ -208,4 +209,17 @@
         ]);
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+        // Met à jour la quantité disponnible d'un produit
+        function updateQuantitytshirts($quantity, $tshirtId){
+
+            $sql = "UPDATE tshirts SET quantity=:quantity WHERE id_tshirt = :tshirtId";
+        
+            $query = connect()->prepare($sql);
+        
+            $query->execute([
+                ':quantity' => $quantity,
+                ':tshirtId' => $tshirtId,
+            ]);
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        }
     ?>

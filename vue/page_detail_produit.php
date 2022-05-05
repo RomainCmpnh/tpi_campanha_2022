@@ -4,21 +4,21 @@ session_start();
 include("../model/functions/produits_functions.php");
 
 
-// Récupère la casquette via l'id
+// Récupère le t-shirt via l'id
 $idtshirt = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING);
 $alltshirts = null;
 $erreur = false;
 if (isset($idtshirt) && isset($idtshirt) != null) {
-    $alltshirts = getAlltshirtsById($idtshirt);
+    $alltshirts = getAllTshirtsById($idtshirt);
 }
 if ($alltshirts == null) {
     $erreur = true;
 } else {
-    // Récupère le model de la casquette
+    // Récupère le model du t-shirt
     $model = getAllModelsById($alltshirts[0]["id_model"]);
-    // Récupère la marque de la casquette
+    // Récupère la marque de la t-shirt
     $marque = getAllBrandsById($model[0]["id_brand"]);
-    // Regarde s'il reste des casquettes ou non
+    // Regarde s'il reste des t-shirts ou non
     $epuise = false;
     if ($alltshirts[0]["quantity"] < 1) {
         $messageQuantity = '<p style="color: rgb(255, 0, 0);">Non disponible</p>';
@@ -42,7 +42,7 @@ if (isset($ajoutPanier) == 1) {
     $newQuantity = ($alltshirts[0]["quantity"])-1;
     updateQuantitytshirts($newQuantity, $idtshirt);
     $isAdd = true;
-    $alltshirts = getAlltshirtsById($idtshirt);
+    $alltshirts = getAllTshirtsById($idtshirt);
     if ($alltshirts[0]["quantity"] < 1) {
         $messageQuantity = '<p style="color: rgb(255, 0, 0);">Non disponible</p>';
         $epuise = true;
@@ -71,13 +71,11 @@ if (isset($ajoutPanier) == 1) {
 
 <body>
 <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
-            <div class="container"><a class="navbar-brand logo" href="accueil.php">TshirtShop</a><button
-                    data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Activer
-                        la navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="container"><a class="navbar-brand logo" href="accueil.php">TShirtShop</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Activer la navigation</span><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navcol-1">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link active" href="accueil.php">accueil</a></li>
-                        <li class="nav-item"><a class="nav-link" href="produits.php">produits</a></li>
+                        <li class="nav-item"><a class="nav-link" href="accueil.php">accueil</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="produits.php">produits</a></li>
                         <?php if (!isset($_SESSION["role"])) {
                             echo '<li class="nav-item"><a class="nav-link" href="connexion.php">Connexion</a></li>
                         <li class="nav-item"><a class="nav-link" href="inscription.php">Inscription</a></li>';
@@ -85,8 +83,7 @@ if (isset($ajoutPanier) == 1) {
                             echo '<li class="nav-item"><a class="nav-link" href="profile.php">Profile</a></li>';
                         }
                         ?>
-                        <li class="nav-item"><a class="nav-link" href="panier.php"><i
-                                    class="la la-shopping-cart"></i>Panier</a></li>
+                        <li class="nav-item"><a class="nav-link" href="panier.php"><i class="la la-shopping-cart"></i>Panier</a></li>
                         <?php
                         if (isset($_SESSION["role"])) {
                             if($_SESSION["role"]== "admin"){
@@ -131,15 +128,15 @@ if (isset($ajoutPanier) == 1) {
                                         <div class="price">
                                             <h3><?php echo $alltshirts[0]["price"] . '.-'; ?></h3>
                                         </div>
-                                        <form action="page_du_produit.php?id=<?php echo $idtshirt; ?>" method="POST">
+                                        <form action="page_detail_produit.php?id=<?php echo $idtshirt; ?>" method="POST">
                                             <input type="hidden" name="add-panier" value="1">
                                             <button class="btn btn-<?php if ($epuise == true) {
                                                                         echo "danger";
                                                                     } else {
                                                                         echo "primary";
                                                                     } ?>" type="submit" <?php if ($epuise == true) {
-                                                                                                                                                        echo "disabled";
-                                                                                                                                                    } ?>><i class="icon-basket"></i>Ajouter au panier</button>
+                                                     echo "disabled";
+                                            } ?>><i class="icon-basket"></i>Ajouter au panier</button>
                                         </form>
                                         <div class="summary">
                                             <p><?php echo $alltshirts[0]["description"]; ?></p>

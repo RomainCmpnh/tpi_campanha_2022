@@ -22,13 +22,13 @@
                         la navigation</span><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navcol-1">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link active" href="accueil.php">accueil</a></li>
+                        <li class="nav-item"><a class="nav-link" href="accueil.php">accueil</a></li>
                         <li class="nav-item"><a class="nav-link" href="produits.php">produits</a></li>
                         <?php if (!isset($_SESSION["role"])) {
                             echo '<li class="nav-item"><a class="nav-link" href="connexion.php">Connexion</a></li>
                         <li class="nav-item"><a class="nav-link" href="inscription.php">Inscription</a></li>';
                         } else {
-                            echo '<li class="nav-item"><a class="nav-link" href="profile.php">Profile</a></li>';
+                            echo '<li class="nav-item"><a class="nav-link active" href="profile.php">Profile</a></li>';
                         }
                         ?>
                         <li class="nav-item"><a class="nav-link" href="panier.php"><i

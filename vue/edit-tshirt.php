@@ -17,12 +17,10 @@
 
 <body>
 <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
-            <div class="container"><a class="navbar-brand logo" href="accueil.php">TshirtShop</a><button
-                    data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Activer
-                        la navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="container"><a class="navbar-brand logo" href="accueil.php">TshirtShop</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Activer la navigation</span><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navcol-1">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link active" href="accueil.php">accueil</a></li>
+                        <li class="nav-item"><a class="nav-link" href="accueil.php">accueil</a></li>
                         <li class="nav-item"><a class="nav-link" href="produits.php">produits</a></li>
                         <?php if (!isset($_SESSION["role"])) {
                             echo '<li class="nav-item"><a class="nav-link" href="connexion.php">Connexion</a></li>
@@ -31,8 +29,7 @@
                             echo '<li class="nav-item"><a class="nav-link" href="profile.php">Profile</a></li>';
                         }
                         ?>
-                        <li class="nav-item"><a class="nav-link" href="panier.php"><i
-                                    class="la la-shopping-cart"></i>Panier</a></li>
+                        <li class="nav-item"><a class="nav-link" href="panier.php"><i class="la la-shopping-cart"></i>Panier</a></li>
                         <?php
                         if (isset($_SESSION["role"])) {
                             if($_SESSION["role"]== "admin"){

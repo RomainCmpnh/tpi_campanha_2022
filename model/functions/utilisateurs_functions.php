@@ -121,5 +121,7 @@
             ':email' => $email,
         ]);
         return $query->fetchAll(PDO::FETCH_ASSOC);
-    }
+    }¨
+
+
 ?>

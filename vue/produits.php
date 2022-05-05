@@ -84,7 +84,7 @@ if ($recherche != null || $recherche != "") {
                         la navigation</span><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navcol-1">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link " href="accueil.php">accueil</a></li>
+                        <li class="nav-item"><a class="nav-link" href="accueil.php">accueil</a></li>
                         <li class="nav-item"><a class="nav-link active" href="produits.php">produits</a></li>
                         <?php if (!isset($_SESSION["role"])) {
                             echo '<li class="nav-item"><a class="nav-link" href="connexion.php">Connexion</a></li>
@@ -221,19 +221,19 @@ if ($recherche != null || $recherche != "") {
                                                 $messageQuantity = '<p style="color: rgb(35,174,0);">Disponible</p>';
                                             }
 
-                                            // Regarde si le tshirt est en favoris
-                                            if(isset($_SESSION["role"])){
-                                            $veriftshirt = getSpecificFav($_SESSION["idUser"], $item["id_tshirt"]);
-                                            if($veriftshirt!=null){
-                                                $fav = "";
-                                            }
-                                            else{
-                                                $fav = "-o";
-                                            }
-                                        }
-                                        else{
-                                            $fav="-o";
-                                        }
+                                        //     // Regarde si le tshirt est en favoris
+                                        //     if(isset($_SESSION["role"])){
+                                        //     $veriftshirt = getSpecificFav($_SESSION["idUser"], $item["id_tshirt"]);
+                                        //     if($veriftshirt!=null){
+                                        //         $fav = "";
+                                        //     }
+                                        //     else{
+                                        //         $fav = "-o";
+                                        //     }
+                                        // }
+                                        // else{
+                                        //     $fav="-o";
+                                        // }
 
                                             // Affiche le tshirt
                                             echo '<div class="col-12 col-md-6 col-lg-4">

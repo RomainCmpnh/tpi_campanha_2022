@@ -10,20 +10,20 @@ if (isset($new) == 1) {
 }
 
 // Ajoute au favoris
-//if(isset($_SESSION["role"])){
-//$favId = filter_input(INPUT_GET, "add-fav", FILTER_SANITIZE_STRING);
-//if(isset($favId)){
-//    if($favId!=null){
-//        $verifTshirt = getSpecificFav($_SESSION["idUser"], $favId);
-//        if($verifTshirt==null){
-//            addFav($_SESSION["idUser"], $favId);
-//        }
-//        else{
-//            deleteFav($_SESSION["idUser"], $favId);
-//        }
- //   }
-//}
-//}
+if(isset($_SESSION["role"])){
+    $favId = filter_input(INPUT_GET, "add-fav", FILTER_SANITIZE_STRING);
+    if(isset($favId)){
+        if($favId!=null){
+            $veriftshirt = getSpecificFav($_SESSION["idUser"], $favId);
+            if($veriftshirt==null){
+                addFav($_SESSION["idUser"], $favId);
+            }
+            else{
+                deleteFav($_SESSION["idUser"], $favId);
+            }
+        }
+    }
+    }
 
 // Récupère les tshirts selon le filtre
 $filtre = filter_input(INPUT_GET, "filter", FILTER_SANITIZE_STRING);
@@ -98,6 +98,31 @@ if ($recherche != null || $recherche != "") {
                 </div>
             </div>
         </nav>
+        <?php
+        if ($newmessage == true) {
+            // Affichage du message de bienvenue lors de la création d'un compte
+            echo '
+            <!-- modal -->
+            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="myModal">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Bienvenue</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Vous êtes maintenant inscrit sur TshirtShop !
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                </div>
+                </div>
+            </div>
+            </div>';
+        }
+        ?>
     <main class="page landing-page">
         <section class="clean-block clean-hero" style="color: rgba(0,0,0,0.85);background: url(&quot;assets/img/my-images/banner.jpg&quot;);">
             <div class="text">
@@ -139,7 +164,6 @@ if ($recherche != null || $recherche != "") {
                                             </div>
                                     </div>
                                     <div class="filter-item">
-                                        
                                         <form action="#" method="GET">
                                                     <h3>Rechercher</h3><input type="text" name="recherche"><input
                                                         type="submit" class="btn btn-primary" type="button"
@@ -209,18 +233,18 @@ if ($recherche != null || $recherche != "") {
                                             }
 
                                             // Regarde si le tshirt est en favoris
-                                            if(isset($_SESSION["role"])){
-                                            $veriftshirt = getSpecificFav($_SESSION["idUser"], $item["id_tshirt"]);
-                                            if($veriftshirt!=null){
-                                                $fav = "";
-                                            }
-                                            else{
-                                                $fav = "-o";
-                                            }
-                                        }
-                                        else{
-                                            $fav="-o";
-                                        }
+                                        //     if(isset($_SESSION["role"])){
+                                        //     $veriftshirt = getSpecificFav($_SESSION["idUser"], $item["id_tshirt"]);
+                                        //     if($veriftshirt!=null){
+                                        //         $fav = "";
+                                        //     }
+                                        //     else{
+                                        //         $fav = "-o";
+                                        //     }
+                                        // }
+                                        // else{
+                                        //     $fav="-o";
+                                        // }
 
                                             // Affiche le tshirt
                                             echo '<div class="col-12 col-md-6 col-lg-4">
@@ -309,6 +333,7 @@ if ($recherche != null || $recherche != "") {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
     <script src="assets/js/smoothproducts.min.js"></script>
     <script src="assets/js/theme.js"></script>
+ 
 </body>
 
 </html>
