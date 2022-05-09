@@ -1,3 +1,40 @@
+<?php
+session_start();
+
+include("../model/functions/utilisateurs_functions.php");
+include("../model/functions/produits_functions.php");
+
+// Vérification des accès
+if (!isset($_SESSION["role"])) {
+    header("Location: connexion.php");
+    exit;
+}
+
+// Deconnexion
+$deco = filter_input(INPUT_GET, "deco", FILTER_SANITIZE_STRING);
+if (isset($deco) == 1) {
+    unset($_SESSION["role"]);
+    unset($_SESSION["idUser"]);
+    header("Location: connexion.php");
+    exit;
+}
+
+// Changement de mot de passe
+$password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
+if($password !=null){
+    $password = hash('sha256', $password);
+    changePassword($_SESSION["idUser"], $password);
+}
+
+// Suppression du compte
+$delete = filter_input(INPUT_POST, "delete", FILTER_SANITIZE_STRING);
+if($delete!=null){
+    disableUser($_SESSION["idUser"]);
+    header("Location: profile.php?deco=1");
+}
+
+$order = getAllOrderdByUserId($_SESSION["idUser"]);
+?>
 <!DOCTYPE html>
 <html>
 
@@ -50,83 +87,122 @@
             <div class="container">
                 <div class="block-heading">
                     <p style="font-family: 'Roboto Slab', serif;font-size: 32px;color: rgb(0,0,0);">Profile</p>
-                    <p>Ici, vous pouvez retrouver vos commandes, changer votre mot de passe ou encore supprimer votre compte.</p>
-                </div>
-                <form>
-                    <div class="form-group"><label for="email">Changer votre mot de passe</label><input class="form-control" type="password" name="password"></div>
-                    <div class="form-group"><button class="btn btn-primary btn-block" type="submit" style="background: rgb(0,0,0);border-color: rgb(0,0,0);">Changer</button></div>
-                </form>
-                <div class="row">
-                    <div class="col">
-                        <p></p>
+                   
                     </div>
-                </div>
-                <form>
-                    <div class="form-group"><button class="btn btn-danger btn-block" type="submit">Supprimer mon compte</button></div>
-                </form>
-                <div class="row">
-                    <div class="col">
-                        <p></p>
+                    <form method="POST" action="#">
+                        <div class="form-group"><label for="email">Changer votre mot de passe</label><input
+                                class="form-control" type="password" name="password" required></div>
+                        <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Changer</button>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col">
+                            <p></p>
+                        </div>
                     </div>
-                </div>
+                    <form action="#" method="GET">
+                        <input type="hidden" value="1" name="deco">
+                        <div class="form-group"><button class="btn btn-warning btn-block"
+                                type="submit">Déconnexion</button></div>
+                    </form>
+                    <div class="row">
+                        <div class="col">
+                            <p></p>
+                        </div>
+                    </div>
+                    <!-- Fenetre de confirmaton pour la suppression du compte -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Attention</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Êtes vous sûr de vouloir supprimer votre compte?
+                                </div>
+                                <div class="modal-footer">
+                                    <form action="#" method="POST">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                                        <input type="hidden" name="delete" value="1">
+                                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <form>
+                            <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#exampleModal">Supprimer mon compte</button>
+                        </form>
+                        <div class="row">
+                            <div class="col">
+                                <p></p>
+                            </div>
+                        </div>
                 <p style="font-family: 'Roboto Slab', serif;font-size: 32px;color: rgb(0,0,0);">Historique des commandes</p>
-                <div class="content">
-                    <div class="row no-gutters">
-                        <div class="col-md-12 col-lg-8">
-                            <div class="items">
-                                <div class="product">
-                                    <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="product-image"><img class="img-fluid d-block mx-auto image" src="assets/img/my-images/product/cap.jpg"></div>
-                                        </div>
-                                        <div class="col-md-5 product-info"><a class="product-name" href="#" style="color: rgb(0,0,0);">T-shirt noir</a>
-                                            <div class="product-specs">
-                                                <div><span>Marque:&nbsp;</span><span class="value">5 inch</span></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-md-2 quantity"><label class="d-none d-md-block" for="quantity">Quantité</label><input type="number" id="number-1" class="form-control quantity-input" value="1" disabled=""></div>
-                                        <div class="col-6 col-md-2 price"><span>30 CHF</span></div>
-                                    </div>
+                <?php
+                        if($order!=null){
+                            foreach($order as $item){
+                                echo '<div class="row">
+                                <div class="col">
+                                    <p></p>
                                 </div>
-                                <div class="product">
-                                    <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="product-image"><img class="img-fluid d-block mx-auto image" src="assets/img/my-images/product/cap.jpg"></div>
-                                        </div>
-                                        <div class="col-md-5 product-info"><a class="product-name" href="#" style="color: rgb(0,0,0);">T-shirt noir</a>
-                                            <div class="product-specs">
-                                                <div><span>Marque:&nbsp;</span><span class="value">5 inch</span></div>
+                            </div>
+                            <div class="content">
+                                <div class="row no-gutters">
+                                    <div class="col-md-12 col-lg-8">';
+                                $tshirt = getAllOrderItemsdByOrderId($item["id_order"]);
+                                foreach($tshirt as $tshirtItem){
+                                    $thistshirt = getAlltshirtsById($tshirtItem["id_tshirt"]);
+
+                                    // Récupère le model de la tshirt
+                                    $model = getAllModelsById($thistshirt[0]["id_model"]);
+
+                                    // Récupère la marque de la tshirt
+                                    $marque = getAllBrandsById($model[0]["id_brand"]);
+
+                                    echo '<div class="items">
+                                    <div class="product">
+                                        <div class="row justify-content-center align-items-center">
+                                            <div class="col-md-3">
+                                                <div class="product-image"><img class="img-fluid d-block mx-auto image" src="../model/assets/img/my-images/product/tshirt.jpg"></div>
                                             </div>
+                                            <div class="col-md-5 product-info"><a class="product-name" href="page_detail_produit.php?id=' . $thistshirt[0]["id_tshirt"] . '">'.$model[0]["name"].'</a>
+                                                <div class="product-specs">
+                                                    <div><span><b>Marque: </b></span><span class="value">'.$marque[0]["name"].'</span></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 col-md-2 quantity"><label class="d-none d-md-block" for="quantity">Quantité</label><b>'.$tshirtItem["quantity"].'</b></div>
+                                            <div class="col-6 col-md-2 price"><span>'.$tshirtItem["unit_price"].'.-</span></div>
                                         </div>
-                                        <div class="col-6 col-md-2 quantity"><label class="d-none d-md-block" for="quantity">Quantité</label><input type="number" id="number-2" class="form-control quantity-input" value="1" disabled=""></div>
-                                        <div class="col-6 col-md-2 price"><span>30 CHF</span></div>
                                     </div>
-                                </div>
-                                <div class="product">
-                                    <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="product-image"><img class="img-fluid d-block mx-auto image" src="assets/img/my-images/product/cap.jpg"></div>
-                                        </div>
-                                        <div class="col-md-5 product-info"><a class="product-name" href="#" style="color: rgb(0,0,0);">T-shirt noir</a>
-                                            <div class="product-specs">
-                                                <div><span>Marque:&nbsp;</span><span class="value">5 inch</span></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-md-2 quantity"><label class="d-none d-md-block" for="quantity">Quantité</label><input type="number" id="number-3" class="form-control quantity-input" value="1" disabled=""></div>
-                                        <div class="col-6 col-md-2 price"><span>30 CHF</span></div>
+                                </div>';
+                                }
+                                if($item["is_confirmed"]==0){
+                                    $messageEtat = "<p style='color:red'>Non confirmé</p>";
+                                }
+                                else{
+                                    $messageEtat = "<p style='color:lime'>Confirmé</p>";
+                                }
+                                echo '</div>
+                                <div class="col-md-12 col-lg-4">
+                                    <div class="summary">
+                                        <h3>Résumé</h3>
+                                        <h4><span class="text">État de la commande: </span><span class="price">'.$messageEtat.'</span></h4>
+                                        <h4><span class="text">Total&nbsp;</span><span class="price">'.$item["total_price"].'.-</span></h4>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-12 col-lg-4">
-                            <div class="summary">
-                                <h3>Aperçu</h3>
-                                <h4><span class="text">Montant de la commande&nbsp;</span><span class="price">90 CHF</span></h4>
-                                <h4><span class="text">Total&nbsp;</span><span class="price">90 CHF</span></h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        </div>';
+                            }
+                        }
+                        else{
+                            echo "<h2>Vous n'avez pas encore passé de commande.";
+                        }
+                    ?>
             </div>
         </section>
     </main>

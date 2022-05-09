@@ -1,3 +1,52 @@
+<?php
+session_start();
+
+include("../model/functions/utilisateurs_functions.php");
+
+// Verification d'accès
+if(!isset($_SESSION["role"])){
+    header("Location: connexion.php");
+    exit;
+}
+else if($_SESSION["role"]!="admin"){
+    header("Location: accueil.php");
+    exit;
+}
+
+// Récupération des données du nouvel utilisateur
+$pseudo = filter_input(INPUT_POST, "pseudo", FILTER_SANITIZE_STRING);
+$mdp = filter_input(INPUT_POST, "password", FILTER_SANITIZE_STRING);
+$mdp = hash('sha256', $mdp);
+$email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_STRING);
+$confirmation = filter_input(INPUT_POST, "envois", FILTER_SANITIZE_STRING);
+$succes = 0;
+
+// Ajout de l'utilisateur
+if($confirmation==1){
+    $checkEmail = getAllUsersByEmail($email);
+        if ($checkEmail == null) {
+            try {
+                addUser($pseudo, $mdp, $email);
+                $succes = 1;
+                $msg = '<div class="alert alert-success" role="alert">
+            L\'utilisateur a été ajouté!
+          </div>';
+            } catch (Exception $e) {
+                $succes = 1;
+                $msg = '<div class="alert alert-danger" role="alert">
+            Erreur : '.$e.'!
+          </div>';
+            }
+        }
+        else{
+            $succes = 1;
+                $msg = '<div class="alert alert-danger" role="alert">
+            L\'email est déjà utilisé!
+          </div>';
+        }
+}
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -47,12 +96,19 @@
             <div class="container">
                 <div class="block-heading"></div>
                 <p style="font-family: 'Roboto Slab', serif;font-size: 35px;color: rgb(0,0,0);text-align: center;">Ajouter un utilisateur</p>
-                <form>
-                    <div class="form-group"><label for="name">Pseudo</label><input class="form-control" type="text" id="name" name="pseudo"></div>
-                    <div class="form-group"><label for="subject">Email</label><input class="form-control" type="text" id="subject" name="email"></div>
-                    <div class="form-group"><label for="subject">Mot de passe</label><input class="form-control" type="password" name="password"></div>
-                    <div class="form-group"><button class="btn btn-primary btn-block" type="submit" style="background: rgb(0,0,0);border-color: rgb(0,0,0);">Ajouter</button></div>
-                </form>
+
+                <form action="#" method="POST">
+                    <?php
+                        if($succes==1){
+                            echo $msg;
+                        }
+                    ?>
+                        <input type="hidden" name="envois" value="1">
+                        <div class="form-group"><label for="name">Pseudo</label><input class="form-control" type="text" id="name" name="pseudo" required></div>
+                        <div class="form-group"><label for="subject">Email</label><input class="form-control" type="text" id="subject" name="email" required></div>
+                        <div class="form-group"><label for="subject">Mot de passe</label><input class="form-control" type="password" name="password" required></div>
+                        <div class="form-group"><button class="btn btn-primary btn-block" type="submit" style="background: rgb(0,0,0);border-color: rgb(0,0,0);" >Ajouter</button></div>
+                    </form>
             </div>
         </section>
     </main>

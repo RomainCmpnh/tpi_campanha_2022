@@ -217,10 +217,10 @@ if ($recherche != null || $recherche != "") {
                                         }
                                         foreach ($allTshirts as $item) {
 
-                                            // Récupère le model de la casquette
+                                            // Récupère le model du T-shirt
                                             $model = getAllModelsById($item["id_model"]);
 
-                                            // Récupère la marque de la casquette
+                                            // Récupère la marque du T-shirt
                                             $marque = getAllBrandsById($model[0]["id_brand"]);
 
                                             // Regarde s'il reste des tshirts ou non
@@ -262,9 +262,10 @@ if ($recherche != null || $recherche != "") {
                                                         echo "connexion.php";
                                                     }
                                                     echo '"><i class="fa fa-star'.$fav.'" style="color: var(--warning);"></i></a>';
+                                                    
                                                 echo '</div>
                                                 <div class="price">
-                                                    <h3>' . $item["price"] . '.-</h3>
+                                                    <h3>' . $item["price"] . ' CHF</h3>
                                                 </div>
                                             </div>
                                         </div>

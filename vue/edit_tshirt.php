@@ -6,37 +6,59 @@ include("../model/functions/produits_functions.php");
 // Verification de l'accès
 if(!isset($_SESSION["role"])){
     header("Location: connexion.php");
-    exit;
 }
 else if($_SESSION["role"]!="admin"){
     header("Location: accueil.php");
-    exit;
 }
 
-// Recuperation des données du nouveau tshirt
+// Récupération des données de le tshirt
+$tshirtId = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING);
+
 $modele = filter_input(INPUT_POST, "modele", FILTER_SANITIZE_STRING);
 $marque = filter_input(INPUT_POST, "marque", FILTER_SANITIZE_STRING);
 $prix = filter_input(INPUT_POST, "prix", FILTER_SANITIZE_STRING);
-$description = filter_input(INPUT_POST, "description", FILTER_SANITIZE_STRING);
 $quantity = filter_input(INPUT_POST, "quantity", FILTER_SANITIZE_STRING);
+$description = filter_input(INPUT_POST, "description", FILTER_SANITIZE_STRING);
 
-// Ajout de du nouveau tshirt
-if($modele != null && $marque != null && $prix != null && $description != null && $quantity != null){
+// Modification de le tshirt
+$succes=0;
+if($modele != null && $marque != null && $prix != null && $quantity != null && $description != null){
+
     $checkMarque = getBrandsByName($marque);
+    $idModel = getAlltshirtsById($tshirtId);
+    $idModel = $idModel[0]["id_model"];
+
     if($checkMarque==null)
     {
         $idBrand = addBrand($marque);
-        $idModel = addModel($modele, $idBrand[1]);
-        addTshirt($idModel[1], $prix, $description, $quantity);
+        updateModels($idModel, $modele, $idBrand);
+        updatetshirt($tshirtId, $prix, $description, $quantity);
     }
     else{
-        $marqueId = $checkMarque[0]["id_brand"];
-        $idModel = addModel($modele, $marqueId);
-        addTshirt($idModel[1], $prix, $description, $quantity);
+        updatebrands($checkMarque[0]["id_brand"], $marque);
+        updateModels($idModel, $modele, $checkMarque[0]["id_brand"]);
+        updatetshirt($tshirtId, $prix, $description, $quantity);
     }
-    header("Location: produits.php?new=1");
-    exit;
+    $modelValue = $modele;
+    $marqueValue = $marque;
+    $priceValue = $prix;
+    $quantityValue = $quantity;
+    $descriptionValue = $description;
+    $succes=1;
 }
+else{
+    $anctshirt = getAlltshirtsById($tshirtId);
+    $ancModel = getAllModelsById($anctshirt[0]["id_model"]);
+    $ancBrand = getAllBrandsById($ancModel[0]["id_brand"]);
+
+    $modelValue = $ancModel[0]["name"];
+    $marqueValue = $ancBrand[0]["name"];
+    $priceValue = $anctshirt[0]["price"];
+    $quantityValue = $anctshirt[0]["quantity"];
+    $descriptionValue = $anctshirt[0]["description"];
+}
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -85,17 +107,26 @@ if($modele != null && $marque != null && $prix != null && $description != null &
     <main class="page contact-us-page">
         <section class="clean-block clean-form dark">
             <div class="container">
-                <div class="block-heading">
-                    <p style="font-family: 'Roboto Slab', serif;font-size: 35px;color: rgb(0,0,0);text-align: center;">Ajouter un produit</p>
-                </div>
+                <div class="block-heading"></div>
+                <p style="font-family: 'Roboto Slab', serif;font-size: 31px;color: rgb(0,0,0);text-align: center;margin-bottom: 11px;">Modification</p>
                 <form action="#" method="POST">
-                    <div class="form-group"><label for="name">Modèle</label><input class="form-control" type="text" id="name" name="modele" required></div>
-                    <div class="form-group"><label for="subject">Marque</label><input class="form-control" type="text" id="subject" name="marque" required></div>
-                    <div class="form-group"><label for="email">Prix</label><input class="form-control" type="number" name="prix" required></div>
-                    <div class="form-group"><label for="quantity">Quantité</label><input class="form-control" type="number" name="quantity" required min="1" step="1"></div>
-                    <div class="form-group"><label for="message">Description</label><textarea class="form-control" id="message" name="description" required></textarea></div>
-                    <div class="form-group"><button class="btn btn-primary btn-block" type="submit" style="background: rgb(0,0,0);border-color: rgb(0,0,0);" required>Ajouter</button></div>
-                </form>
+                        <?php
+                            if($succes==1){ 
+                            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Succès!</strong> La modification a été sauvegardée.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>';
+                            }
+                        ?>
+                        <div class="form-group"><label for="name">Modèle</label><input class="form-control" type="text" id="name" name="modele" required value=<?php echo '"'.$modelValue.'"'; ?>></div>
+                        <div class="form-group"><label for="subject">Marque</label><input class="form-control" type="text" id="subject" name="marque" required value=<?php echo '"'.$marqueValue.'"'; ?>></div>
+                        <div class="form-group"><label for="prix">Prix</label><input class="form-control" type="number" name="prix" id="prix" min="0.05" step="0.05" required value=<?php echo '"'.$priceValue.'"'; ?>></div>
+                        <div class="form-group"><label for="quantity">Quantity</label><input class="form-control" type="number" name="quantity" id="quantity" min="1" step="1" required value=<?php echo '"'.$quantityValue.'"'; ?>></div>
+                        <div class="form-group"><label for="message">Description</label><textarea class="form-control" id="message" name="description" required><?php echo $descriptionValue; ?></textarea></div>
+                        <div class="form-group"><button class="btn btn-primary btn-block" type="submit" style="background: rgb(0,0,0);border-color: rgb(0,0,0);">Modifier</button></div>
+                    </form>
             </div>
         </section>
     </main>

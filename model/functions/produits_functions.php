@@ -122,7 +122,8 @@
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
-        // Récupère le nombre de pages qu'il faudrai pour afficher un certain nombre de t-shirts par pages
+        // Recupere le nombre de pages qu'il faudrait pour afficher 
+        // un certain nombre de t-shirts par pages
         function getAllPagesProduct($nb_result_wanted){
 
             $sql = "SELECT * FROM tshirts";
@@ -142,19 +143,9 @@
             return $number_of_page;
         }
 
-            // Supprime unn tshirt
-    function delTshirt($idTshirt){
-        $sql = "DELETE FROM tshirts WHERE id_tshirt = :id_tshirt";
-        
-        $query = connect()->prepare($sql);
+ 
 
-        $query->execute([
-            ':id_tshirt' => $idtshirt,
-        ]);
-        return $query->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-       // Récupère toutes les t-shirts ordonné par date selon le nombre demandé et par pages
+       // Recupere toutes les t-shirts ordonne par date selon le nombre demande et par pages
        function getAllProductParPagesDate($page_first_result, $results_par_page){
 
         $sql = "SELECT * FROM tshirts ORDER BY id_tshirt DESC LIMIT :page_first_result , :results_par_page";
@@ -222,4 +213,301 @@
             ]);
             return $query->fetchAll(PDO::FETCH_ASSOC);
         }
+
+        
+    // Récupère tous les articles d'une commande
+    function getAllOrderItemsdByOrderId($orderid){
+
+        $sql = "SELECT * FROM order_tshirts WHERE id_order = :orderId";
+    
+        $query = connect()->prepare($sql);
+    
+        $query->execute([
+            ':orderId' => $orderid,
+        ]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+     // Change l'état d'une commande 
+     function changeEtatOrder($idOrder, $etat){
+
+        if($etat==true || $etat==false){
+            if($etat==true){
+                $sql = "UPDATE orders SET is_confirmed=1 WHERE id_order = :id_order";
+            }
+            else{
+                $sql = "UPDATE orders SET is_confirmed=0 WHERE id_order = :id_order";
+            }
+        
+            $query = connect()->prepare($sql);
+    
+            $query->execute([
+                ':id_order' => $idOrder,
+            ]);
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        }
+        
+    }
+
+    // Supprime un article d'une commande
+    function delOrderItem($idOrder, $id_tshirt){
+        $sql = "DELETE FROM order_tshirts WHERE id_order = :id_order AND id_tshirt = :id_tshirt";
+        
+        $query = connect()->prepare($sql);
+
+        $query->execute([
+            ':id_order' => $idOrder,
+            ':id_tshirt' => $id_tshirt,
+        ]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Actualise le prix d'une commande
+    function updateOrderPrice($idOrder, $price){
+
+        $sql = "UPDATE orders SET total_price=:total_price WHERE id_order = :id_order";
+    
+        $query = connect()->prepare($sql);
+    
+        $query->execute([
+            ':total_price' => $price,
+            ':id_order' => $idOrder,
+        ]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+      // Supprime une commande
+      function delOrder($idOrder){
+        $sql = "DELETE FROM orders WHERE id_order = :id_order";
+        
+        $query = connect()->prepare($sql);
+
+        $query->execute([
+            ':id_order' => $idOrder,
+        ]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+      // Récupère toutes les commandes
+      function getAllOrders(){
+
+        $sql = "SELECT * FROM orders";
+    
+        $query = connect()->prepare($sql);
+    
+        $query->execute([
+            
+        ]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+ // Ajoute un nouveau produit à une commande dans la DB
+ function addOrder_tshirts($id_order, $id_tshirt, $quantity, $price){
+    $sql = "INSERT INTO order_tshirts (id_order, id_tshirt, quantity, unit_price) VALUES (:id_order, :id_tshirt, :quantity, :price)";
+
+    $query = connect()->prepare($sql);
+
+    $query->execute([
+        ':id_order' => $id_order,
+        ':id_tshirt' => $id_tshirt,
+        ':quantity' => $quantity,
+        ':price' => $price,
+    ]);
+    $id = connect()->lastInsertId();
+    return $id;
+}
+
+  // Ajoute une nouvelle commande dans la DB
+  function addOrders($total, $date, $user){
+    $sql = "INSERT INTO orders (total_price, order_date, id_user) VALUES (:total, :date, :user)";
+
+    $query = connect()->prepare($sql);
+
+    $query->execute([
+        ':total' => $total,
+        ':date' => $date,
+        ':user' => $user,
+    ]);
+    $id = connect()->lastInsertId();
+    return array($query->fetchAll(PDO::FETCH_ASSOC), $id);
+}
+
+    // Récupère toutes les commandes d'un utilisateurs selon son ID
+    function getAllOrderdByUserId($userid){
+
+        $sql = "SELECT * FROM orders WHERE id_user = :idUser";
+    
+        $query = connect()->prepare($sql);
+    
+        $query->execute([
+            ':idUser' => $userid,
+        ]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+      // Ajoute une marque
+      function addBrand($marque){
+        $sql = "INSERT INTO brands (name) VALUES (:name)";
+
+        $query = connect()->prepare($sql);
+
+        $query->execute([
+            ':name' => $marque,
+        ]);
+        $id = connect()->lastInsertId();
+        return array($query->fetchAll(PDO::FETCH_ASSOC), $id);
+    }
+
+    // Ajoute un model
+    function addModel($nom, $idMarque){
+        $sql = "INSERT INTO models (name, id_brand) VALUES (:name, :idMarque)";
+
+        $query = connect()->prepare($sql);
+
+        $query->execute([
+            ':name' => $nom,
+            ':idMarque' => $idMarque,
+        ]);
+        $id = connect()->lastInsertId();
+        return array($query->fetchAll(PDO::FETCH_ASSOC), $id);
+    }
+
+    // Ajoute un tshirt
+    function addTshirt($id_model, $price, $description, $quantity){
+        $sql = "INSERT INTO tshirts (id_model, price, description, quantity) VALUES (:id_model, :price, :description, :quantity)";
+
+        $query = connect()->prepare($sql);
+
+        $query->execute([
+            ':id_model' => $id_model,
+            ':price' => $price,
+            ':description' => $description,
+            ':quantity' => $quantity,
+        ]);
+        $id = connect()->lastInsertId();
+        return array($query->fetchAll(PDO::FETCH_ASSOC), $id);
+    }
+
+     // Récupère la marque via le nom de celle ci
+     function getBrandsByName($name){
+
+        $sql = "SELECT * FROM brands WHERE name = :name";
+    
+        $query = connect()->prepare($sql);
+    
+        $query->execute([
+            ':name' => $name,
+        ]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+   
+
+               // Supprime unn tshirt
+               function delTshirt($idtshirt){
+                $sql = "DELETE FROM tshirts WHERE id_tshirt = :id_tshirt";
+                
+                $query = connect()->prepare($sql);
+        
+                $query->execute([
+                    ':id_tshirt' => $idtshirt,
+                ]);
+                return $query->fetchAll(PDO::FETCH_ASSOC);
+            }
+
+       // Supprime un model
+       function delModel($idModel){
+        $sql = "DELETE FROM models WHERE id_model = :id_model";
+        
+        $query = connect()->prepare($sql);
+
+        $query->execute([
+            ':id_model' => $idModel,
+        ]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Supprime un favoris
+    function delFavorisByIdtshirt($idtshirt){
+        $sql = "DELETE FROM favorite WHERE id_tshirt = :id_tshirt";
+        
+        $query = connect()->prepare($sql);
+
+        $query->execute([
+            ':id_tshirt' => $idtshirt,
+        ]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Supprime une commande
+    function delOrdertshirtByIdtshirt($idtshirt){
+        $sql = "DELETE FROM order_tshirts WHERE id_tshirt = :id_tshirt";
+        
+        $query = connect()->prepare($sql);
+
+        $query->execute([
+            ':id_tshirt' => $idtshirt,
+        ]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    
+       // Récupère un tshirt favorite spécifique d'un utilisateur
+       function getSpecificFav($idUser, $idtshirt){
+
+        $sql = "SELECT * FROM favorite WHERE id_user = :idUser AND id_tshirt = :idtshirt";
+    
+        $query = connect()->prepare($sql);
+    
+        $query->execute([
+            ':idUser' => $idUser,
+            ':idtshirt' => $idtshirt,
+        ]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+     // Modifie les données d'un T-shirt
+     function updatetshirt($idtshirt, $price, $description, $quantity){
+
+        $sql = "UPDATE tshirts SET price=:price, description=:description, quantity=:quantity WHERE id_tshirt = :id_tshirt";
+    
+        $query = connect()->prepare($sql);
+    
+        $query->execute([
+            ':id_tshirt' => $idtshirt,
+            ':price' => $price,
+            ':description' => $description,
+            ':quantity' => $quantity,
+        ]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+      // Modifie les données d'un model
+      function updateModels($idModel, $nom, $marqueId){
+
+        $sql = "UPDATE models SET name=:name, id_brand=:id_brand WHERE id_model = :id_model";
+    
+        $query = connect()->prepare($sql);
+    
+        $query->execute([
+            ':id_model' => $idModel,
+            ':name' => $nom,
+            ':id_brand' => $marqueId,
+        ]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Modifie les données d'une marque
+    function updatebrands($idBrand, $nom){
+
+        $sql = "UPDATE models SET name=:name WHERE id_brand = :id_brand";
+    
+        $query = connect()->prepare($sql);
+    
+        $query->execute([
+            ':id_brand' => $idBrand,
+            ':name' => $nom,
+        ]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+
     ?>

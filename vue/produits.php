@@ -9,22 +9,24 @@ if (!isset($page) || isset($page) == null) {
     $page = 1;
 }
 
+$confMsg = 0;
+$del = filter_input(INPUT_GET, "del", FILTER_SANITIZE_STRING);
+if($del==1){
+    if(isset($_SESSION["role"])){
+        if($_SESSION["role"]=="admin"){
+            $idToDelete = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING);
+            $idModel = getAllTshirtsById($idToDelete);
+            $idModel = $idModel[0]["id_model"];
+            delOrdertshirtByIdtshirt($idToDelete);
+            delFavorisByIdtshirt($idToDelete);
+            delTshirt($idToDelete);
+            delModel($idModel);
+            $confMsg = 1;
+        }
+    }
+}
 
-// Ajoute au favoris
-//if(isset($_SESSION["role"])){
-//$favId = filter_input(INPUT_GET, "add-fav", FILTER_SANITIZE_STRING);
-//if(isset($favId)){
-//    if($favId!=null){
-//        $verifTshirt = getSpecificFav($_SESSION["idUser"], $favId);
-//        if($verifTshirt==null){
-//            addFav($_SESSION["idUser"], $favId);
-//        }
-//        else{
-//            deleteFav($_SESSION["idUser"], $favId);
-//        }
- //   }
-//}
-//}
+
 
 $new = filter_input(INPUT_GET, "new", FILTER_SANITIZE_STRING);
 if($new == 1){
@@ -50,6 +52,23 @@ if ($filtre == "marque") {
     $filtre = "none";
 }
 
+// Ajoute au favoris
+if(isset($_SESSION["role"])){
+    $favId = filter_input(INPUT_GET, "add-fav", FILTER_SANITIZE_STRING);
+    if(isset($favId)){
+        if($favId!=null){
+            $veriftshirt = getSpecificFav($_SESSION["idUser"], $favId);
+            if($veriftshirt==null){
+                addFav($_SESSION["idUser"], $favId);
+            }
+            else{
+                deleteFav($_SESSION["idUser"], $favId);
+            }
+        }
+    }
+}
+
+
 // Recherche d'article
 $rien = false;
 $recherche = filter_input(INPUT_GET, "recherche", FILTER_SANITIZE_STRING);
@@ -58,6 +77,7 @@ if ($recherche != null || $recherche != "") {
     if ($allTshirts == null) {
         $rien = true;
     }
+    $filtre = "recherche";
 }
 ?>
 <!DOCTYPE html>
@@ -221,19 +241,19 @@ if ($recherche != null || $recherche != "") {
                                                 $messageQuantity = '<p style="color: rgb(35,174,0);">Disponible</p>';
                                             }
 
-                                        //     // Regarde si le tshirt est en favoris
-                                        //     if(isset($_SESSION["role"])){
-                                        //     $veriftshirt = getSpecificFav($_SESSION["idUser"], $item["id_tshirt"]);
-                                        //     if($veriftshirt!=null){
-                                        //         $fav = "";
-                                        //     }
-                                        //     else{
-                                        //         $fav = "-o";
-                                        //     }
-                                        // }
-                                        // else{
-                                        //     $fav="-o";
-                                        // }
+                                       // Regarde si le t-shirt est en favoris
+                                       if(isset($_SESSION["role"])){
+                                        $veriftshirt = getSpecificFav($_SESSION["idUser"], $item["id_tshirt"]);
+                                        if($veriftshirt!=null){
+                                            $fav = "";
+                                        }
+                                        else{
+                                            $fav = "-o";
+                                        }
+                                    }
+                                    else{
+                                        $fav="-o";
+                                    }
 
                                             // Affiche le tshirt
                                             echo '<div class="col-12 col-md-6 col-lg-4">
@@ -246,14 +266,21 @@ if ($recherche != null || $recherche != "") {
                                                 <div class="rating">
                                                     ' . $messageQuantity . '<p><a href="';
                                                     if(isset($_SESSION["role"]))
-                                                    { echo "produit.php?add-fav=".$item["id_tshirt"];}
+                                                    { echo "produits.php?add-fav=".$item["id_tshirt"];}
                                                     else{
                                                         echo "connexion.php";
                                                     }
                                                     echo '"><i class="fa fa-star'.$fav.'" style="color: var(--warning);"></i></a>';
+                                                    if (isset($_SESSION["role"])) {
+                                                        if($_SESSION["role"]=="admin"){
+                                                        echo '&nbsp;&nbsp;<a href="edit_tshirt.php?id='.$item["id_tshirt"].'">
+                                                        <i class="fa fa-pencil" style="color: var(--orange);"></i></a>&nbsp;&nbsp;<a href="produits.php?del=1&id='.$item["id_tshirt"].'">
+                                                        <i class="fa fa-trash" style="color: var(--danger);"></i></a></p>';
+                                                    }
+                                                }
                                                 echo '</div>
                                                 <div class="price">
-                                                    <h3>' . $item["price"] . '.-</h3>
+                                                    <h3>' . $item["price"] . ' CHF</h3>
                                                 </div>
                                             </div>
                                         </div>

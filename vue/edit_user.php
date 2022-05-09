@@ -1,3 +1,59 @@
+<?php
+session_start();
+
+include("../model/functions/utilisateurs_functions.php");
+
+// Vérification de l'accès
+if(!isset($_SESSION["role"])){
+    header("Location: connexion.php");
+    exit;
+}
+else if($_SESSION["role"]!="admin"){
+    header("Location: accueil.php");
+    exit;
+}
+
+// Récupération des informations de l'utilisateur
+$getId = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING);
+
+$user = getAllUsersById($getId);
+
+$envois = filter_input(INPUT_POST, "envois", FILTER_SANITIZE_STRING);
+
+// Modification de l'utilisateur
+if($envois == 1){
+    try{
+        $username = filter_input(INPUT_POST, "pseudo", FILTER_SANITIZE_STRING);
+        $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
+        $checkEmail = getAllUsersByEmail($email);
+        if($checkEmail==null){
+            changeUsernameAndEmail($getId, $username, $email);
+            $succes = 1;
+            $msg = '<div class="alert alert-success" role="alert">
+            L\'utilisateur a été modifié!
+          </div>';
+        }
+        else{
+            $succes = 1;
+            $msg = '<div class="alert alert-danger" role="alert">
+            L\'email est déjà utilisé!
+          </div>';
+        }
+    }
+    catch(Exception $e){
+        $msg = '<div class="alert alert-danger" role="alert">
+        Une erreur est surevenue : '.$e.'
+      </div>';
+      $succes = 1;
+    }
+    
+}
+else{
+    $username = $user[0]["username"];
+    $email = $user[0]["email"];
+    $succes = 0;
+}
+?>
 <!DOCTYPE html>
 <html>
 
@@ -47,11 +103,17 @@
             <div class="container">
                 <div class="block-heading"></div>
                 <p style="font-family: 'Roboto Slab', serif;font-size: 31px;color: rgb(0,0,0);text-align: center;margin-bottom: 11px;">Modification</p>
-                <form>
-                    <div class="form-group"><label for="name">Pseudo</label><input class="form-control" type="text" id="name" name="pseudo"></div>
-                    <div class="form-group"><label for="subject">Email</label><input class="form-control" type="text" id="subject" name="email"></div>
-                    <div class="form-group"><button class="btn btn-primary btn-block" type="submit" style="background: rgb(0,0,0);">Modifier</button></div>
-                </form>
+                <form method="POST" action="#">
+                        <?php
+                            if($succes==1){
+                                echo $msg;
+                            }
+                        ?>
+                        <input type="hidden" value="1" name="envois">
+                        <div class="form-group"><label for="name">Pseudo</label><input class="form-control" type="text" id="name" name="pseudo" value="<?php echo $username; ?>" required></div>
+                        <div class="form-group"><label for="subject">Email</label><input class="form-control" type="text" id="subject" name="email" value="<?php echo $email; ?>" required></div>
+                        <div class="form-group"><button class="btn btn-primary btn-block" type="submit" style="background: rgb(0,0,0);">Modifier</button></div>
+                    </form>
             </div>
         </section>
     </main>

@@ -1,3 +1,25 @@
+<?php
+session_start();
+
+include("../model/functions/produits_functions.php");
+include("../model/functions/utilisateurs_functions.php");
+
+// Verification de l'accès
+if(!isset($_SESSION["role"]))
+{
+    header("Location: connexion.php");
+    exit;
+}
+else if($_SESSION["role"]==null){
+    header("Location: connexion.php");
+    exit;
+}
+
+if($_SESSION["role"]=="admin"){
+    $email = filter_input(INPUT_GET, "user", FILTER_SANITIZE_EMAIL);
+}
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -53,61 +75,96 @@
                     <div class="row no-gutters">
                         <div class="col-md-12 col-lg-8">
                             <div class="items">
-                                <div class="product">
-                                    <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="product-image"><img class="img-fluid d-block mx-auto image" src="assets/img/my-images/product/cap.jpg"></div>
-                                        </div>
-                                        <div class="col-md-5 product-info"><a class="product-name" href="#" style="color: rgb(0,0,0);">Tshirt noir</a>
-                                            <div class="product-specs">
-                                                <div><span>Marque:&nbsp;</span><span class="value">5 inch</span></div>
+                                <?php
+                                sort($_SESSION["panier"]);
+                                    $ancItem = null;
+                                    $total = 0;
+                                    $occurence = array_count_values($_SESSION["panier"]);
+                                    foreach ($_SESSION["panier"] as $item) {
+                                        if ($ancItem != $item) {
+
+                                            // Récupère la tshirt
+                                            $tshirt = getAlltshirtsById($item);
+
+                                            // Récupère le model de la tshirt
+                                            $model = getAllModelsById($tshirt[0]["id_model"]);
+
+                                            // Récupère la marque de la tshirt
+                                            $marque = getAllBrandsById($model[0]["id_brand"]);
+
+                                            echo '<div class="product">
+                                            <div class="row justify-content-center align-items-center">
+                                                <div class="col-md-3">
+                                                    <div class="product-image"><img class="img-fluid d-block mx-auto image" src="../model/assets/img/my-images/product/tshirt.jpg"></div>
+                                                </div>
+                                                <div class="col-md-5 product-info"><a class="product-name" href="page-du-produit.php?id=' . $tshirt[0]["id_tshirt"] . '">' . $model[0]["name"] . '</a>
+                                                    <div class="product-specs">
+                                                        <div><span>Marque:&nbsp;</span><span class="value">' . $marque[0]["name"] . '</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-2 quantity"><label class="d-none d-md-block" for="quantity">Quantité</label><input type="number" id="number" class="form-control quantity-input" min="0" disabled name="quantity" value="' . $occurence[$item] . '"></div>
+                                                <div class="col-6 col-md-2 price"><span>' . $tshirt[0]["price"] . '.-</span></div>
                                             </div>
-                                        </div>
-                                        <div class="col-6 col-md-2 quantity"><label class="d-none d-md-block" for="quantity">Quantité</label><input type="number" id="number-1" class="form-control quantity-input" value="1" disabled=""></div>
-                                        <div class="col-6 col-md-2 price"><span>30 CHF</span></div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="product-image"><img class="img-fluid d-block mx-auto image" src="assets/img/my-images/product/cap.jpg"></div>
-                                        </div>
-                                        <div class="col-md-5 product-info"><a class="product-name" href="#" style="color: rgb(0,0,0);">Tshirt noir</a>
-                                            <div class="product-specs">
-                                                <div><span>Marque:&nbsp;</span><span class="value">5 inch</span></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-md-2 quantity"><label class="d-none d-md-block" for="quantity">Quantité</label><input type="number" id="number-2" class="form-control quantity-input" value="1" disabled=""></div>
-                                        <div class="col-6 col-md-2 price"><span>30 CHF</span></div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-3">
-                                            <div class="product-image"><img class="img-fluid d-block mx-auto image" src="assets/img/my-images/product/cap.jpg"></div>
-                                        </div>
-                                        <div class="col-md-5 product-info"><a class="product-name" href="#" style="color: rgb(0,0,0);">Tshirt noir</a>
-                                            <div class="product-specs">
-                                                <div><span>Marque:&nbsp;</span><span class="value">5 inch</span></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-md-2 quantity"><label class="d-none d-md-block" for="quantity">Quantité</label><input type="number" id="number-3" class="form-control quantity-input" value="1" disabled=""></div>
-                                        <div class="col-6 col-md-2 price"><span>30 CHF</span></div>
-                                    </div>
+                                        </div>';
+                                            $total += ($tshirt[0]["price"] * $occurence[$item]);
+                                        }
+                                        $ancItem = $item;
+                                    }
+
+
+                                    // Ajout a la DB
+                                    if($_SESSION["role"]=="user"){
+                                        $lastId = addOrders($total, date("Y-m-d"), $_SESSION["idUser"]);
+                                        $ancItem = null;
+
+                                        foreach ($_SESSION["panier"] as $item) {
+                                            if($ancItem != $item){
+                                                // Récupère la tshirt
+                                                $tshirt = getAlltshirtsById($item);
+
+                                                $price = $tshirt[0]["price"];
+                                                $tshirtId = $tshirt[0]["id_tshirt"];
+                                                $number = $occurence[$item];
+                                                addOrder_tshirts($lastId[1], $tshirtId, $number, $price);
+                                            }
+                                            $ancItem = $item;
+                                        }
+                                    }
+                                    else if($_SESSION["role"]=="admin"){
+                                        $infoUser = getAllUsersByEmail($email);
+                                        $lastId = addOrders($total, date("Y-m-d"), $infoUser[0]["id_user"]);
+                                        $ancItem = null;
+
+                                        foreach ($_SESSION["panier"] as $item) {
+                                            if($ancItem != $item){
+                                                // Récupère la tshirt
+                                                $tshirt = getAlltshirtsById($item);
+
+                                                $price = $tshirt[0]["price"];
+                                                $tshirtId = $tshirt[0]["id_tshirt"];
+                                                $number = $occurence[$item];
+                                                addOrder_tshirts($lastId[1], $tshirtId, $number, $price);
+                                            }
+                                            $ancItem = $item;
+                                        }
+                                    }
+                                    ?>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-12 col-lg-4">
-                            <div class="summary">
-                                <h3>Aperçu</h3>
-                                <h4><span class="text">Montant de la commande</span><span class="price">90 CHF</span></h4>
-                                <h4><span class="text">Total</span><span class="price">90 CHF</span></h4><button class="btn btn-primary btn-block btn-lg" type="button" style="background: rgb(0,0,0);">Imprimer</button>
+                            <div class="col-md-12 col-lg-4">
+                                <div class="summary">
+                                    <h3>Aperçu</h3>
+                                    <h4><span class="text">Montant de la commande</span><span
+                                            class="price"><?php echo $total . ".-";?></span>
+                                    </h4>
+                                    <h4><span class="text">Total</span><span
+                                            class="price"><?php echo $total . ".-";?></span>
+                                    </h4><button class="btn btn-primary btn-block btn-lg" type="button" onclick="printer()">Imprimer</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
     </main>
     <footer class="page-footer dark">
         <div class="footer-copyright">
@@ -119,6 +176,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
     <script src="assets/js/smoothproducts.min.js"></script>
     <script src="assets/js/theme.js"></script>
+    <script>
+        function printer() {
+            window.print();
+        }
+    </script>
 </body>
 
 </html>
+<?php
+    // Vide le panier
+    $_SESSION["panier"] = null;
+?>

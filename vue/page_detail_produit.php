@@ -126,7 +126,7 @@ if (isset($ajoutPanier) == 1) {
                                             <?php echo $messageQuantity; ?>
                                         </div>
                                         <div class="price">
-                                            <h3><?php echo $alltshirts[0]["price"] . '.-'; ?></h3>
+                                            <h3><?php echo $alltshirts[0]["price"] . ' CHF'; ?></h3>
                                         </div>
                                         <form action="page_detail_produit.php?id=<?php echo $idtshirt; ?>" method="POST">
                                             <input type="hidden" name="add-panier" value="1">

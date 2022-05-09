@@ -1,0 +1,14 @@
+body{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+footer{
+    display: flex;
+    flex-direction: column;
+}
+
+.main{
+    flex: 1 0 auto;
+}
