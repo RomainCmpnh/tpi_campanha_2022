@@ -58,7 +58,7 @@ if (isset($ajoutPanier) == 1) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Product - TshirtShop</title>
+    <title>Product - E-Tshirt</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab&amp;display=swap">
@@ -71,7 +71,7 @@ if (isset($ajoutPanier) == 1) {
 
 <body>
 <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
-            <div class="container"><a class="navbar-brand logo" href="accueil.php">TShirtShop</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Activer la navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="container"><a class="navbar-brand logo" href="accueil.php">E-Tshirt</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Activer la navigation</span><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navcol-1">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item"><a class="nav-link" href="accueil.php">accueil</a></li>
@@ -151,7 +151,7 @@ if (isset($ajoutPanier) == 1) {
     </main>
     <footer class="page-footer dark">
         <div class="footer-copyright">
-            <p>© 2022 TshirtShop - All right reserved</p>
+            <p>© 2022 E-Tshirt - All right reserved</p>
         </div>
     </footer>
     <script src="assets/js/jquery.min.js"></script>

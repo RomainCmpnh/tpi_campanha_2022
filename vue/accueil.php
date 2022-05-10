@@ -57,7 +57,7 @@ if ($recherche != null || $recherche != "") {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - TshirtShop</title>
+    <title>Home - E-Tshirt</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab&amp;display=swap">
@@ -70,7 +70,7 @@ if ($recherche != null || $recherche != "") {
 
 <body>
     <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
-            <div class="container"><a class="navbar-brand logo" href="accueil.php">TshirtShop</a><button
+            <div class="container"><a class="navbar-brand logo" href="accueil.php">E-Tshirt</a><button
                     data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Activer
                         la navigation</span><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navcol-1">
@@ -100,7 +100,7 @@ if ($recherche != null || $recherche != "") {
         </nav>
         <?php
         if ($newmessage == true) {
-            // Affichage du message de bienvenue lors de la création d'un compte
+            // Affichage du message  création d'un compte
             echo '
             <!-- modal -->
             <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="myModal">
@@ -113,7 +113,7 @@ if ($recherche != null || $recherche != "") {
                     </button>
                 </div>
                 <div class="modal-body">
-                    Vous êtes maintenant inscrit sur TshirtShop !
+                    Vous êtes maintenant inscrit sur E-Tshirt !
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
@@ -126,14 +126,14 @@ if ($recherche != null || $recherche != "") {
     <main class="page landing-page">
         <section class="clean-block clean-hero" style="color: rgba(0,0,0,0.85);background: url(&quot;assets/img/my-images/banner.jpg&quot;);">
             <div class="text">
-                <h2 style="font-family: 'Roboto Slab', serif;height: 49px;width: 215.641px;font-size: 38px;">T-shirtShop</h2>
+                <h2 style="font-family: 'Roboto Slab', serif;height: 49px;width: 215.641px;font-size: 38px;">E-Tshirt</h2>
                 <p style="font-family: 'Roboto Slab', serif;">Disponible maintenant !</p><button class="btn btn-outline-light btn-lg" type="button">Voir nos articles</button>
             </div>
         </section>
         <section class="clean-block clean-catalog dark">
             <div class="container">
                 <div class="block-heading">
-                    <p style="font-family: 'Roboto Slab', serif;font-size: 32px;color: rgb(0,0,0);">T-shirtShop</p>
+                    <p style="font-family: 'Roboto Slab', serif;font-size: 32px;color: rgb(0,0,0);">E-Tshirt</p>
                     <p style="font-family: 'Roboto Slab', serif;">Voici nos super T-shirts !</p>
                 </div>
                 <div class="content">
@@ -232,19 +232,19 @@ if ($recherche != null || $recherche != "") {
                                                 $messageQuantity = '<p style="color: rgb(35,174,0);">Disponible</p>';
                                             }
 
-                                            // Regarde si le tshirt est en favoris
-                                        //     if(isset($_SESSION["role"])){
-                                        //     $veriftshirt = getSpecificFav($_SESSION["idUser"], $item["id_tshirt"]);
-                                        //     if($veriftshirt!=null){
-                                        //         $fav = "";
-                                        //     }
-                                        //     else{
-                                        //         $fav = "-o";
-                                        //     }
-                                        // }
-                                        // else{
-                                        //     $fav="-o";
-                                        // }
+                                         // Regarde si le t-shirt est en favoris
+                                         if(isset($_SESSION["role"])){
+                                            $veriftshirt = getSpecificFav($_SESSION["idUser"], $item["id_tshirt"]);
+                                            if($veriftshirt!=null){
+                                                $fav = "";
+                                            }
+                                            else{
+                                                $fav = "-o";
+                                            }
+                                        }
+                                        else{
+                                            $fav="-o";
+                                        }
 
                                             // Affiche le tshirt
                                             echo '<div class="col-12 col-md-6 col-lg-4">
@@ -289,9 +289,9 @@ if ($recherche != null || $recherche != "") {
                 <div class="row align-items-center">
                     <div class="col-md-6"><img class="img-thumbnail" src="assets/img/my-images/home/who-are.jpg"></div>
                     <div class="col-md-6">
-                        <h3>T-shirtShop</h3>
+                        <h3>E-Tshirt</h3>
                         <div class="getting-started-info">
-                            <p>T-shirtShop est une super boutique qui ouvre enfin ses portes à Genève ! Vous y trouverez un gigantesque choix de T-shirts. Commandez vos T-shirts sur notre site.</p>
+                            <p>E-Tshirt est une super boutique qui ouvre enfin ses portes à Genève ! Vous y trouverez un gigantesque choix de T-shirts. Commandez vos T-shirts sur notre site.</p>
                         </div>
                     </div>
                 </div>
@@ -326,7 +326,7 @@ if ($recherche != null || $recherche != "") {
     </main>
     <footer class="page-footer dark">
         <div class="footer-copyright">
-            <p>© 2022 TshirtShop - All right reserved</p>
+            <p>© 2022 E-Tshirt - All right reserved</p>
         </div>
     </footer>
     <script src="assets/js/jquery.min.js"></script>

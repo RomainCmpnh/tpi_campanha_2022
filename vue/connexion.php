@@ -53,7 +53,7 @@ if (isset($email) != null && isset($mdp) != null) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Login - TshirtShop</title>
+    <title>Login - E-Tshirt</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab&amp;display=swap">
@@ -116,7 +116,7 @@ if (isset($email) != null && isset($mdp) != null) {
     </main>
     <footer class="page-footer dark">
         <div class="footer-copyright">
-            <p><br>© 2022 TshirtShop - All right reserved<br><br></p>
+            <p><br>© 2022 E-Tshirt - All right reserved<br><br></p>
         </div>
     </footer>
     <script src="assets/js/jquery.min.js"></script>

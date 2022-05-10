@@ -276,6 +276,8 @@
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
+
+
       // Supprime une commande
       function delOrder($idOrder){
         $sql = "DELETE FROM orders WHERE id_order = :id_order";
@@ -402,7 +404,7 @@
 
    
 
-               // Supprime unn tshirt
+               // Supprime un tshirt
                function delTshirt($idtshirt){
                 $sql = "DELETE FROM tshirts WHERE id_tshirt = :id_tshirt";
                 
@@ -509,5 +511,59 @@
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
     
+    // Ajoute un produit au favoris d'un utilisateur
+    function addFav($idUser, $idtshirt){
+        $sql = "INSERT INTO favorite (id_user, id_tshirt) VALUES (:id_user, :id_tshirt)";
 
+        $query = connect()->prepare($sql);
+
+        $query->execute([
+            ':id_user' => $idUser,
+            ':id_tshirt' => $idtshirt,
+        ]);
+        $id = connect()->lastInsertId();
+        return array($query->fetchAll(PDO::FETCH_ASSOC), $id);
+    }
+
+    // Récupère  favorite d'un utilisateur
+    function getAllFavByUserId($id){
+
+        $sql = "SELECT * FROM favorite WHERE id_user = :id";
+    
+        $query = connect()->prepare($sql);
+    
+        $query->execute([
+            ':id' => $id,
+        ]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Supprime une tshirt favorite d'un utilisateur
+    function deleteFav($idUser, $idtshirt){
+        $sql = "DELETE FROM favorite WHERE id_user = :id_user AND id_tshirt = :id_tshirt";
+
+        $query = connect()->prepare($sql);
+
+        $query->execute([
+            ':id_user' => $idUser,
+            ':id_tshirt' => $idtshirt,
+        ]);
+        $id = connect()->lastInsertId();
+        return array($query->fetchAll(PDO::FETCH_ASSOC), $id);
+    }
+
+    // Récupère tous les t-shirts ordonné par favoris d'un utilisateur selon le nombre demandé et par pages
+    function getAlltshirtsOrderFavPage($userid, $page_first_result, $results_par_page){
+
+        $sql = "SELECT * FROM tshirts AS c JOIN favorite as f ON f.id_tshirt = c.id_tshirt WHERE f.id_user = :id_user LIMIT :page_first_result , :results_par_page";
+    
+        $query = connect()->prepare($sql);
+    
+        $query->execute([
+            ':id_user' => $userid,
+            ':page_first_result' => $page_first_result,
+            ':results_par_page' => $results_par_page,
+        ]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
     ?>
