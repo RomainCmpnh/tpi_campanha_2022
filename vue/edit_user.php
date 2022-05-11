@@ -1,5 +1,12 @@
 
 <?php
+//******************/
+// * Nom et prénom : CAMPANHA Romain
+// * Date : 18mai 2022
+// * Version : 1.0
+// * Fichier : edit_user.php
+// * Description : permet a un admin de modifier les informations d'un utilisateur
+//**************** */
 session_start();
 
 include("../model/functions/utilisateurs_functions.php");
@@ -62,14 +69,14 @@ else{
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Contact Us - E-Tshirt</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../model/assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab&amp;display=swap">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/fonts/line-awesome.min.css">
-    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="../model/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../model/assets/fonts/line-awesome.min.css">
+    <link rel="stylesheet" href="../model/assets/fonts/simple-line-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
-    <link rel="stylesheet" href="assets/css/smoothproducts.css">
+    <link rel="stylesheet" href="../model/assets/css/smoothproducts.css">
 </head>
 
 <body>
@@ -123,11 +130,11 @@ else{
             <p>© 2022 E-Tshirt - All right reserved</p>
         </div>
     </footer>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../model/assets/js/jquery.min.js"></script>
+    <script src="../model/assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
-    <script src="assets/js/smoothproducts.min.js"></script>
-    <script src="assets/js/theme.js"></script>
+    <script src="../model/assets/js/smoothproducts.min.js"></script>
+    <script src="../model/assets/js/theme.js"></script>
 </body>
 
 </html>

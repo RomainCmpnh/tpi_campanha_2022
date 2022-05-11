@@ -1,4 +1,12 @@
 <?php
+//******************/
+// * Nom et prénom : CAMPANHA Romain
+// * Date : 18mai 2022
+// * Version : 1.0
+// * Fichier : produits_functions.php
+// * Description : Modèle contenant toute les fonctions liées aux produits
+//**************** */
+
     // Connexion à la DB
     include_once("database.php");
 
@@ -30,7 +38,7 @@
             return $query->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        // Récupère tous les t-shirts des moins chère au plus chère
+        // Récupère tous les t-shirts par prix croissant
         function getAllTshirtsOrderPriceA(){
 
         $sql = "SELECT * FROM tshirts ORDER BY price ASC";
@@ -43,7 +51,7 @@
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
-        // Récupère tous les t-shirts des plus chère au moins chère
+        // Récupère tous les t-shirts par prix decroissant
         function getAllTshirtsOrderPriceB(){
 
             $sql = "SELECT * FROM tshirts ORDER BY price DESC";
@@ -69,7 +77,7 @@
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
-       // Récupère toutes les t-shirts dans l'ordre alphabétique des marques
+       // Récupère tous les t-shirts dans l'ordre alphabétique des marques
        function getAllTshirtsOrderMarque(){
 
         $sql = "SELECT * FROM tshirts AS c JOIN models as m ON m.id_model = c.id_model 
@@ -145,7 +153,7 @@
 
  
 
-       // Recupere toutes les t-shirts ordonne par date selon le nombre demande et par pages
+       // Recupere tous les t-shirts ordonne par date selon le nombre demande et par pages
        function getAllProductParPagesDate($page_first_result, $results_par_page){
 
         $sql = "SELECT * FROM tshirts ORDER BY id_tshirt DESC LIMIT :page_first_result , :results_par_page";
@@ -159,7 +167,7 @@
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
-      // Récupère toutes les t-shirts ordonné par prix ascendant selon le nombre demandé et par pages
+      // Récupère tous les t-shirts ordonné par prix ascendant selon le nombre demandé et par pages
       function getAlltshirtsOrderPriceAPage($page_first_result, $results_par_page){
 
         $sql = "SELECT * FROM tshirts ORDER BY price ASC LIMIT :page_first_result , :results_par_page";
@@ -173,7 +181,7 @@
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Récupère toutes les t-shirts ordonné par prix descandant selon le nombre demandé et par pages
+    // Récupère tous les t-shirts ordonné par prix descandant selon le nombre demandé et par pages
     function getAlltshirtsOrderPriceBPage($page_first_result, $results_par_page){
 
         $sql = "SELECT * FROM tshirts ORDER BY price DESC LIMIT :page_first_result , :results_par_page";
@@ -187,7 +195,7 @@
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Récupère toutes les t-shirts ordonné par ordre alphabétique des marques selon le nombre demandé et par pages
+    // Récupère tous les t-shirts ordonné par ordre alphabétique des marques selon le nombre demandé et par pages
     function getAlltshirtsOrderMarquePage($page_first_result, $results_par_page){
 
         $sql = "SELECT * FROM tshirts AS c JOIN models as m ON m.id_model = c.id_model JOIN brands AS b ON b.id_brand = m.id_brand ORDER BY b.name LIMIT :page_first_result , :results_par_page";
@@ -290,7 +298,7 @@
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
-      // Récupère toutes les commandes
+      // Récupère tous les commandes
       function getAllOrders(){
 
         $sql = "SELECT * FROM orders";
@@ -333,7 +341,7 @@
     return array($query->fetchAll(PDO::FETCH_ASSOC), $id);
 }
 
-    // Récupère toutes les commandes d'un utilisateurs selon son ID
+    // Récupère tous les commandes d'un utilisateurs selon son ID
     function getAllOrderdByUserId($userid){
 
         $sql = "SELECT * FROM orders WHERE id_user = :idUser";

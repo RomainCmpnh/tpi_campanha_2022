@@ -1,4 +1,13 @@
 <?php
+//******************/
+// * Nom et prénom : CAMPANHA Romain
+// * Date : 18mai 2022
+// * Version : 1.0
+// * Fichier : accueil.php
+// * Description : Page d'acceuil : affichage des produits, tri des produits, recherche des produits et information sur E-Tshirt en bas de page. Permet a l'admin d'ajouter un article
+// * Description : Si l'utilisateur selectionne un article, il accède à la page détail de l'article selectionner
+//**************** */
+
 session_start();
 include("../model/functions/produits_functions.php");
 
@@ -58,14 +67,14 @@ if ($recherche != null || $recherche != "") {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Home - E-Tshirt</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../model/assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab&amp;display=swap">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/fonts/line-awesome.min.css">
-    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="../model/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../model/assets/fonts/line-awesome.min.css">
+    <link rel="stylesheet" href="../model/assets/fonts/simple-line-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
-    <link rel="stylesheet" href="assets/css/smoothproducts.css">
+    <link rel="stylesheet" href="../model/assets/css/smoothproducts.css">
 </head>
 
 <body>
@@ -124,10 +133,10 @@ if ($recherche != null || $recherche != "") {
         }
         ?>
     <main class="page landing-page">
-        <section class="clean-block clean-hero" style="color: rgba(0,0,0,0.85);background: url(&quot;assets/img/my-images/banner.jpg&quot;);">
+        <section class="clean-block clean-hero" style="color: rgba(0,0,0,0.85);background: url(&quot;../model/assets/img/my-images/banner.jpg&quot;);">
             <div class="text">
                 <h2 style="font-family: 'Roboto Slab', serif;height: 49px;width: 215.641px;font-size: 38px;">E-Tshirt</h2>
-                <p style="font-family: 'Roboto Slab', serif;">Disponible maintenant !</p><button class="btn btn-outline-light btn-lg" type="button">Voir nos articles</button>
+                <p style="font-family: 'Roboto Slab', serif;">Disponible maintenant !</p><a href="produits.php"><button class="btn btn-outline-light btn-lg" type="button">Voir nos articles</button>
             </div>
         </section>
         <section class="clean-block clean-catalog dark">
@@ -249,7 +258,7 @@ if ($recherche != null || $recherche != "") {
                                             // Affiche le tshirt
                                             echo '<div class="col-12 col-md-6 col-lg-4">
                                         <div class="clean-product-item">
-                                            <div class="image"><a href="page_detail_produit.php?id=' . $item["id_tshirt"] . '"><img class="img-fluid d-block mx-auto" src="assets/img/my-images/product/tshirt.jpg"></a></div>
+                                            <div class="image"><a href="page_detail_produit.php?id=' . $item["id_tshirt"] . '"><img class="img-fluid d-block mx-auto" src="../model/assets/img/my-images/product/tshirt.jpg"></a></div>
                                             <div class="product-name"><a href="page_detail_produit.php?id=' . $item["id_tshirt"] . '">' . $model[0]["name"] . '</a>
                                                 <p>' . $marque[0]["name"] . '</p>
                                             </div>
@@ -287,7 +296,7 @@ if ($recherche != null || $recherche != "") {
                     <p>Qui sommes nous ?</p>
                 </div>
                 <div class="row align-items-center">
-                    <div class="col-md-6"><img class="img-thumbnail" src="assets/img/my-images/home/who-are.jpg"></div>
+                    <div class="col-md-6"><img class="img-thumbnail" src="../model/assets/img/my-images/home/who-are.jpg"></div>
                     <div class="col-md-6">
                         <h3>E-Tshirt</h3>
                         <div class="getting-started-info">
@@ -329,11 +338,11 @@ if ($recherche != null || $recherche != "") {
             <p>© 2022 E-Tshirt - All right reserved</p>
         </div>
     </footer>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../model/assets/js/jquery.min.js"></script>
+    <script src="../model/assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
-    <script src="assets/js/smoothproducts.min.js"></script>
-    <script src="assets/js/theme.js"></script>
+    <script src="../model/assets/js/smoothproducts.min.js"></script>
+    <script src="../model/assets/js/theme.js"></script>
  
 </body>
 

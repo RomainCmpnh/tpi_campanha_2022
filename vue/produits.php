@@ -1,4 +1,13 @@
 <?php
+//******************/
+// * Nom et prénom : CAMPANHA Romain
+// * Date : 18mai 2022
+// * Version : 1.0
+// * Fichier : produits.php
+// * Description : affiche le catalogue de produits. Tout comme la page d'acceuil,cette page permet a l'utilisateur de rechercher , trié et d'ajouter aux favoris les articles.
+// * Description : Permet a l'admin d'ajouter, de supprimer ou de modifier un article
+//**************** */
+
 session_start();
 include("../model/functions/produits_functions.php");
 
@@ -34,7 +43,7 @@ if($new == 1){
 }
 
 $pageActu = $page; // Page actuelle
-$result_par_page = 9; // Nombre d'article que l'on veut par page
+$result_par_page = 10; // Nombre d'article que l'on veut par page
 $page_first_result = ($page - 1) * $result_par_page; // Premier article à afficher
 
 // Récupère les T-shirt selon le filtre
@@ -87,14 +96,14 @@ if ($recherche != null || $recherche != "") {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Catalogue - E-Tshirt</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../model/assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab&amp;display=swap">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/fonts/line-awesome.min.css">
-    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="../model/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../model/assets/fonts/line-awesome.min.css">
+    <link rel="stylesheet" href="../model/assets/fonts/simple-line-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
-    <link rel="stylesheet" href="assets/css/smoothproducts.css">
+    <link rel="stylesheet" href="../model/assets/css/smoothproducts.css">
 </head>
 
 <body>
@@ -258,7 +267,7 @@ if ($recherche != null || $recherche != "") {
                                             // Affiche le tshirt
                                             echo '<div class="col-12 col-md-6 col-lg-4">
                                         <div class="clean-product-item">
-                                            <div class="image"><a href="page_detail_produit.php?id=' . $item["id_tshirt"] . '"><img class="img-fluid d-block mx-auto" src="assets/img/my-images/product/tshirt.jpg"></a></div>
+                                            <div class="image"><a href="page_detail_produit.php?id=' . $item["id_tshirt"] . '"><img class="img-fluid d-block mx-auto" src="../model/assets/img/my-images/product/tshirt.jpg"></a></div>
                                             <div class="product-name"><a href="page_detail_produit.php?id=' . $item["id_tshirt"] . '">' . $model[0]["name"] . '</a>
                                                 <p>' . $marque[0]["name"] . '</p>
                                             </div>
@@ -329,11 +338,11 @@ if ($recherche != null || $recherche != "") {
             <p>© 2022 E-Tshirt - All right reserved</p>
         </div>
     </footer>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../model/assets/js/jquery.min.js"></script>
+    <script src="../model/assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
-    <script src="assets/js/smoothproducts.min.js"></script>
-    <script src="assets/js/theme.js"></script>
+    <script src="../model/assets/js/smoothproducts.min.js"></script>
+    <script src="../model/assets/js/theme.js"></script>
 </body>
 
 </html>

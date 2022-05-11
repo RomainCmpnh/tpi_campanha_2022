@@ -1,11 +1,18 @@
 <?php
+//******************/
+// * Nom et prénom : CAMPANHA Romain
+// * Date : 18mai 2022
+// * Version : 1.0
+// * Fichier : utilisateurs_functions.php
+// * Description : Modèle contenant toute les fonctions liées aux utilisateurs
+//**************** */
     // Inclus la connexion à la DB
     include_once("database.php");
 
     // Récupère un utilisateur via son email
     function getAllUsersByEmail($email){
 
-        $sql = "SELECT * FROM users WHERE email = :email";
+        $sql = "SELECT * FROM users WHERE email = :email" ;
     
         $query = connect()->prepare($sql);
     
@@ -99,7 +106,7 @@
     // Récupère tout les utilisateurs actifs
     function getAllActifUsers(){
 
-        $sql = "SELECT * FROM users WHERE actif = 1";
+        $sql = "SELECT * FROM users WHERE actif = 1  AND admin = 0";
     
         $query = connect()->prepare($sql);
     

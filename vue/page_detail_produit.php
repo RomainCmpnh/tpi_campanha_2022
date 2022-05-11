@@ -1,4 +1,11 @@
 <?php
+//******************/
+// * Nom et prénom : CAMPANHA Romain
+// * Date : 18mai 2022
+// * Version : 1.0
+// * Fichier : page_detail_produit.php
+// * Description : affiche les détails du produit séléctionner. Permet a l'utilisateur d'ajouter son article au panier
+//**************** */
 session_start();
 
 include("../model/functions/produits_functions.php");
@@ -59,14 +66,14 @@ if (isset($ajoutPanier) == 1) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Product - E-Tshirt</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../model/assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab&amp;display=swap">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/fonts/line-awesome.min.css">
-    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="../model/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../model/assets/fonts/line-awesome.min.css">
+    <link rel="stylesheet" href="../model/assets/fonts/simple-line-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
-    <link rel="stylesheet" href="assets/css/smoothproducts.css">
+    <link rel="stylesheet" href="../model/assets/css/smoothproducts.css">
 </head>
 
 <body>
@@ -105,7 +112,7 @@ if (isset($ajoutPanier) == 1) {
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="gallery">
-                                    <div class="sp-wrap"><a href="assets/img/my-images/product/tshirt.jpg"><img class="img-fluid d-block mx-auto" src="assets/img/my-images/product/tshirt.jpg"></a><a href="assets/img/my-images/product/tshirt.jpg"><img class="img-fluid d-block mx-auto" src="assets/img/my-images/product/tshirt.jpg"></a><a href="assets/img/my-images/product/tshirt.jpg"><img class="img-fluid d-block mx-auto" src="assets/img/my-images/product/tshirt.jpg"></a></div>
+                                    <div class="sp-wrap"><a href="assets/img/my-images/product/tshirt.jpg"><img class="img-fluid d-block mx-auto" src="../model/assets/img/my-images/product/tshirt.jpg"></a><a href="../model/assets/img/my-images/product/tshirt.jpg"><img class="img-fluid d-block mx-auto" src="../model/assets/img/my-images/product/tshirt.jpg"></a><a href="../model/assets/img/my-images/product/tshirt.jpg"><img class="img-fluid d-block mx-auto" src="../model/assets/img/my-images/product/tshirt.jpg"></a></div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -154,11 +161,11 @@ if (isset($ajoutPanier) == 1) {
             <p>© 2022 E-Tshirt - All right reserved</p>
         </div>
     </footer>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../model/assets/js/jquery.min.js"></script>
+    <script src="../model/assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
-    <script src="assets/js/smoothproducts.min.js"></script>
-    <script src="assets/js/theme.js"></script>
+    <script src="../model/assets/js/smoothproducts.min.js"></script>
+    <script src="../model/assets/js/theme.js"></script>
 </body>
 
 </html>

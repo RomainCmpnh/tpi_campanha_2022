@@ -1,4 +1,12 @@
 <?php
+//******************/
+// * Nom et prénom : CAMPANHA Romain
+// * Date : 18mai 2022
+// * Version : 1.0
+// * Fichier : database.php
+// * Description : Permet la connexion à la base de donnée
+//**************** */
+
     // Connexion à la DB
     function connect()
     {
