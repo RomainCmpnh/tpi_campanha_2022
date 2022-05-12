@@ -136,7 +136,7 @@ if ($recherche != null || $recherche != "") {
         <section class="clean-block clean-hero" style="color: rgba(0,0,0,0.85);background: url(&quot;../model/assets/img/my-images/banner.jpg&quot;);">
             <div class="text">
                 <h2 style="font-family: 'Roboto Slab', serif;height: 49px;width: 215.641px;font-size: 38px;">E-Tshirt</h2>
-                <p style="font-family: 'Roboto Slab', serif;">Disponible maintenant !</p><a href="produits.php"><button class="btn btn-outline-light btn-lg" type="button">Voir nos articles</button>
+                <p style="font-family: 'Roboto Slab', serif;">Disponible maintenant !</p>
             </div>
         </section>
         <section class="clean-block clean-catalog dark">

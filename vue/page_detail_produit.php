@@ -38,7 +38,7 @@ if ($alltshirts == null) {
 }
 
 $isAdd = false;
-// Ajoutte au panier
+// Ajoute au panier
 $ajoutPanier = filter_input(INPUT_POST, "add-panier", FILTER_SANITIZE_STRING);
 if (isset($ajoutPanier) == 1) {
     if (isset($_SESSION["panier"])) {

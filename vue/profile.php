@@ -153,9 +153,9 @@ $order = getAllOrderdByUserId($_SESSION["idUser"]);
                 <?php
                         if($order!=null){
                             foreach($order as $item){
-                                echo '<div class="row">
+                                 echo '<div class="row">
                                 <div class="col">
-                                    <p></p>
+                                   <p></p>
                                 </div>
                             </div>
                             <div class="content">

@@ -1,5 +1,4 @@
 <?php
-
 //******************/
 // * Nom et prénom : CAMPANHA Romain
 // * Date : 18mai 2022
@@ -112,7 +111,7 @@ $order = getAllOrders();
                 <div class="block-heading">
                     <p style="font-family: 'Roboto Slab', serif;font-size: 31px;color: rgb(0,0,0);text-align: center;margin-bottom: 11px;">Commandes</p><a href="produits.php"><button class="btn btn-success" type="button">Ajouter une commande</button>
                 </div>
-                <form>
+               
                     <div class="products">
                         <h3 class="title">Commandes</h3>
                         <?php
@@ -153,7 +152,7 @@ $order = getAllOrders();
                                             <div class="col-md-3">
                                                 <div class="product-image"><img class="img-fluid d-block mx-auto image" src="../model/assets/img/my-images/product/tshirt.jpg"></div>
                                             </div>
-                                            <div class="col-md-5 product-info"><a class="product-name" href="page-du-produit.php?id=' . $thistshirt[0]["id_tshirt"] . '">'.$model[0]["name"].'</a>
+                                            <div class="col-md-5 product-info"><a class="product-name" href="page_detail_produit.php?id=' . $thistshirt[0]["id_tshirt"] . '">'.$model[0]["name"].'</a>
                                                 <div class="product-specs">
                                                     <div><span><b>Marque: </b></span><span class="value">'.$marque[0]["name"].'</span></div>
                                                 </div>
@@ -191,6 +190,7 @@ $order = getAllOrders();
                             echo "<h2>Vous n'avez pas encore passé de commande.";
                         }
                     ?>
+           
             </div>
         </section>
     </main>

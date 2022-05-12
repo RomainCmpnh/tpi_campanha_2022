@@ -270,6 +270,18 @@
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Supprime tous les articles d'une commande à partir de l'id de la commande
+    function delOrderItemByOrderId($idOrder){
+        $sql = "DELETE FROM order_tshirts WHERE id_order = :id_order";
+        
+        $query = connect()->prepare($sql);
+
+        $query->execute([
+            ':id_order' => $idOrder,
+        ]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     // Actualise le prix d'une commande
     function updateOrderPrice($idOrder, $price){
 
