@@ -12,8 +12,8 @@
     {
         static $myDb = null;
         $dbName = "db_tshirts";
-        $dbUser = "root";
-        $dbPass = "Carotte0103";
+        $dbUser = "user";
+        $dbPass = "password";
         $host = "localhost";
         if ($myDb === null) {
             try {
