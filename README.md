@@ -5,7 +5,7 @@ Projet TPI de CAMPANHA Romain
 Création d'un site de vente de t-shirts
 
 ## Installation de la DB
-Récupérez le script dans **/database/db_t-shirts.sql**.
+Récupérez le script dans **/database/db_tshirts.sql**.
 
 Pour configurer les accès à votre database depuis le site, rendez-vous ensuite dans **/model/functions/database.php**
 ```php
