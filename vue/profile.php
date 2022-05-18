@@ -93,7 +93,7 @@ $order = getAllOrderdByUserId($_SESSION["idUser"]);
         <section class="clean-block clean-form dark">
             <div class="container">
                 <div class="block-heading">
-                    <p style="font-family: 'Roboto Slab', serif;font-size: 32px;color: rgb(0,0,0);">Profile</p>
+                    <p style="font-family: 'Roboto Slab', serif;font-size: 32px;color: rgb(0,0,0);">Profil</p>
                    
                     </div>
                     <form method="POST" action="#">
